@@ -3,12 +3,13 @@
 // Execute `rustlings hint move_semantics1` or use the `hint` watch subcommand
 // for a hint.
 
-
 fn main() {
     let vec0 = Vec::new();
 
+    // 这里获取了vec0的所有权，vec0在fill_vec调用后不再有效
     let mut vec1 = fill_vec(vec0);
 
+    // println!("{} has length {} content `{:?}`", "vec0", vec0.len(), vec0);
     println!("{} has length {} content `{:?}`", "vec1", vec1.len(), vec1);
 
     vec1.push(88);

@@ -7,7 +7,7 @@
 //
 // Execute `rustlings hint vecs2` or use the `hint` watch subcommand for a hint.
 
-
+// 这里传入所有权，也返回所有权
 fn vec_loop(mut v: Vec<i32>) -> Vec<i32> {
     for element in v.iter_mut() {
         // TODO: Fill this up so that each element in the Vec `v` is
@@ -19,12 +19,16 @@ fn vec_loop(mut v: Vec<i32>) -> Vec<i32> {
     v
 }
 
+// 这里传入引用，返回新的Vec
+// .iter() 返回的是引用，.mut_iter() 返回的是可变引用，into_iter() 返回的是值
 fn vec_map(v: &Vec<i32>) -> Vec<i32> {
-    v.iter().map(|element| {
-        // TODO: Do the same thing as above - but instead of mutating the
-        // Vec, you can just return the new number!
-        element * 2
-    }).collect()
+    v.iter()
+        .map(|element| {
+            // TODO: Do the same thing as above - but instead of mutating the
+            // Vec, you can just return the new number!
+            element * 2
+        })
+        .collect()
 }
 
 #[cfg(test)]
@@ -33,7 +37,7 @@ mod tests {
 
     #[test]
     fn test_vec_loop() {
-        let v: Vec<i32> = (1..).filter(|x| x % 2 == 0).take(5).collect();
+        let v: Vec<i32> = (1..).filter(|x| x % 2 == 0).take(100).collect();
         let ans = vec_loop(v.clone());
 
         assert_eq!(ans, v.iter().map(|x| x * 2).collect::<Vec<i32>>());

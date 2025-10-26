@@ -7,7 +7,6 @@
 // Execute `rustlings hint move_semantics4` or use the `hint` watch subcommand
 // for a hint.
 
-
 fn main() {
     //let vec0 = Vec::new();
 
@@ -22,6 +21,7 @@ fn main() {
 
 // `fill_vec()` no longer takes `vec: Vec<i32>` as argument
 fn fill_vec() -> Vec<i32> {
+    // 在函数内创建所有权，并转让出去
     let mut vec = Vec::new();
 
     vec.push(22);
