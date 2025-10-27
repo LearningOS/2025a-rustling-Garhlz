@@ -9,8 +9,6 @@
 // Execute `rustlings hint errors6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 use std::num::ParseIntError;
 
 // This is a custom error type that we will be using in `parse_pos_nonzero()`.
@@ -20,19 +18,42 @@ enum ParsePosNonzeroError {
     ParseInt(ParseIntError),
 }
 
-impl ParsePosNonzeroError {
-    fn from_creation(err: CreationError) -> ParsePosNonzeroError {
+// impl ParsePosNonzeroError {
+//     fn from_creation(err: CreationError) -> ParsePosNonzeroError {
+//         ParsePosNonzeroError::Creation(err)
+//     }
+//     // TODO: add another error conversion function here.
+//     fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError {
+//         ParsePosNonzeroError::ParseInt(err)
+//     }
+// }
+
+// 实现 From<ParseIntError> 告诉 Rust 如何将 ParseIntError 转换为我们的错误类型。
+impl From<ParseIntError> for ParsePosNonzeroError {
+    fn from(err: ParseIntError) -> Self {
+        ParsePosNonzeroError::ParseInt(err)
+    }
+}
+
+// 实现 From<CreationError> 告诉 Rust 如何将 CreationError 转换为我们的错误类型。
+impl From<CreationError> for ParsePosNonzeroError {
+    fn from(err: CreationError) -> Self {
         ParsePosNonzeroError::Creation(err)
     }
-    // TODO: add another error conversion function here.
-    // fn from_parseint...
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
-    // TODO: change this to return an appropriate error instead of panicking
-    // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
-    PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
+    // TODO (已解决): 现在我们可以使用 `?` 运算符了。
+    // 1. 如果 s.parse() 失败，`?` 会调用 ParsePosNonzeroError::from(ParseIntError)
+    //    并立即返回 Err(ParsePosNonzeroError::ParseInt(err))
+    let x: i64 = s.parse()?;
+    //PositiveNonzeroInteger是对于u64的包装
+    // 2. 如果 PositiveNonzeroInteger::new(x) 失败, `?` 会调用 ParsePosNonzeroError::from(CreationError)
+    //    并立即返回 Err(ParsePosNonzeroError::Creation(err))
+    let positive_int = PositiveNonzeroInteger::new(x)?;
+
+    // 3. 只有两步都成功，才会返回 Ok
+    Ok(positive_int)
 }
 
 // Don't change anything below this line.

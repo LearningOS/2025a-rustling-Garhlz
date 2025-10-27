@@ -7,21 +7,19 @@
 // Execute `rustlings hint errors3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 use std::num::ParseIntError;
 
 fn main() {
     let mut tokens = 100;
     let pretend_user_input = "8";
-
-    let cost = total_cost(pretend_user_input)?;
-
-    if cost > tokens {
-        println!("You can't afford that many!");
-    } else {
-        tokens -= cost;
-        println!("You now have {} tokens.", tokens);
+    // 函数的返回值必须是Result,否则不可以使用？（因为会传播出去错误，类似throw
+    if let Result::Ok(num) = total_cost(pretend_user_input) {
+        if num > tokens {
+            println!("You can't afford that many!");
+        } else {
+            tokens -= num;
+            println!("You now have {} tokens.", tokens);
+        }
     }
 }
 
